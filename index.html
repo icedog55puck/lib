@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Library</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #gameList {
+            list-style: none;
+            padding: 0;
+        }
+        .gameItem {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Game Library</h1>
+<input type="text" id="searchInput" placeholder="Search by title">
+<button id="sortByRankButton">Sort by Rank</button>
+<ul id="gameList"></ul>
+
+<script>
+    // Sample games data with ranks
+    let games = [
+        { title: "Assassin's Creed example dose not work", page: "assassins_creed.html", rank: 3 },
+        { title: "Battlefield example dose not work", page: "battlefield.html", rank: 1 },
+        { title: "Snake", page: "snake.html", rank: 2 },
+        { title: "Pacman", page: "pacman.html", rank: 4 },
+        // Add more games as needed
+    ];
+
+    // Function to perform Quick Sort by rank
+    function quickSortByRank(arr) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+
+        const pivot = arr[0];
+        const left = [];
+        const right = [];
+
+        for (let i = 1; i < arr.length; i++) {
+            if (arr[i].rank < pivot.rank) {
+                left.push(arr[i]);
+            } else {
+                right.push(arr[i]);
+            }
+        }
+
+        return [...quickSortByRank(left), pivot, ...quickSortByRank(right)];
+    }
+
+    // Function to render the game list
+    function renderGameList(gameList) {
+        const listElement = document.getElementById('gameList');
+        listElement.innerHTML = '';
+        gameList.forEach(game => {
+            const listItem = document.createElement('li');
+            listItem.className = 'gameItem';
+            listItem.textContent = `${game.title} (Rank: ${game.rank})`;
+            listItem.addEventListener('click', () => {
+                window.location.href = game.page;
+            });
+            listElement.appendChild(listItem);
+        });
+    }
+
+    // Event listener for input changes
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value;
+        const result = games.filter(game => game.title.toLowerCase().includes(query.toLowerCase()));
+        renderGameList(result);
+    });
+
+    // Event listener for sort button
+    const sortByRankButton = document.getElementById('sortByRankButton');
+    sortByRankButton.addEventListener('click', () => {
+        const sortedGames = quickSortByRank(games);
+        renderGameList(sortedGames);
+    });
+
+    // Render the initial game list
+    renderGameList(games);
+</script>
+
+</body>
+</html>
