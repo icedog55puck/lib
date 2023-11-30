@@ -82,7 +82,7 @@ class GamePanel extends JPanel implements ActionListener, KeyListener {
             player.x += 5;
         }
 
-        // Update bullet positions in game
+        // Update bullet positions in game.
         bullets.removeIf(bullet -> bullet.y < 0);
         for (Rectangle bullet : bullets) {
             bullet.y -= 10;
