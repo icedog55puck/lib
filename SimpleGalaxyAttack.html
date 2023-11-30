@@ -1,223 +1,173 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
-
-public class SimpleGalaxyAttack extends JFrame {
-
-    public SimpleGalaxyAttack() {
-        this.add(new GamePanel());
-        this.setTitle("Upgraded Galaxy Attack");
-        this.setResizable(false);
-        this.pack();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(SimpleGalaxyAttack::new);
-    }
-}
-
-enum GameState {
-    START_SCREEN,
-    IN_GAME,
-    GAME_OVER
-}
-
-class GamePanel extends JPanel implements ActionListener, KeyListener {
-    private final int PANEL_WIDTH = 800;
-    private final int PANEL_HEIGHT = 600;
-    private final int PLAYER_SIZE = 60;
-    private final int BULLET_HEIGHT = 10;
-    private final int BULLET_WIDTH = 5;
-    private final int ENEMY_SIZE = 50;
-    private final long FIRING_INTERVAL = 500; // milliseconds
-    private long lastFiringTime;
-    private Timer timer;
-    private List<Rectangle> bullets;
-    private List<Rectangle> enemies;
-    private Rectangle player;
-    private boolean leftPressed, rightPressed;
-    private int score;
-    private int bulletsToFire;
-    private GameState gameState;
-
-    public GamePanel() {
-        this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        this.setBackground(Color.BLACK);
-        this.setFocusable(true);
-        this.addKeyListener(this);
-
-        initializeGame();
-        gameState = GameState.START_SCREEN;
-
-        timer = new Timer(20, this);
-        timer.start();
-    }
-
-    private void initializeGame() {
-        player = new Rectangle(PANEL_WIDTH / 2 - PLAYER_SIZE / 2, PANEL_HEIGHT - 60, PLAYER_SIZE, PLAYER_SIZE);
-        bullets = new ArrayList<>();
-        enemies = new ArrayList<>();
-        score = 0;
-        bulletsToFire = 1;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (gameState == GameState.IN_GAME) {
-            updateGame();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Space Shooter Game</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 20px auto;
+            background: black;
         }
-        repaint();
-    }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-    private void updateGame() {
-        if (leftPressed && player.x > 0) {
-            player.x -= 5;
-        }
-        if (rightPressed && player.x < PANEL_WIDTH - PLAYER_SIZE) {
-            player.x += 5;
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const playerSize = 60;
+        const bulletWidth = 5;
+        const bulletHeight = 10;
+        const enemySize = 50;
+        const player = { x: canvas.width / 2 - playerSize / 2, y: canvas.height - 60, width: playerSize, height: playerSize };
+        let bullets = [];
+        let enemies = [];
+        let score = 0;
+        let bulletsToFire = 1;
+
+        document.addEventListener('keydown', keyDownHandler);
+        document.addEventListener('keyup', keyUpHandler);
+
+        function keyDownHandler(event) {
+            if (event.key === 'ArrowRight') {
+                player.rightPressed = true;
+            } else if (event.key === 'ArrowLeft') {
+                player.leftPressed = true;
+            } else if (event.code === 'Space') {
+                shootBullet();
+            }
         }
 
-        // Update bullet positions in game
-        bullets.removeIf(bullet -> bullet.y < 0);
-        for (Rectangle bullet : bullets) {
-            bullet.y -= 10;
+        function keyUpHandler(event) {
+            if (event.key === 'ArrowRight') {
+                player.rightPressed = false;
+            } else if (event.key === 'ArrowLeft') {
+                player.leftPressed = false;
+            }
         }
 
-        // Enemy logic
-        if (Math.random() < 0.02) { // 2% chance to spawn an enemy each frame
-            enemies.add(new Rectangle(
-                    (int)(Math.random() * (PANEL_WIDTH - ENEMY_SIZE)),
-                    -ENEMY_SIZE,
-                    ENEMY_SIZE,
-                    ENEMY_SIZE
-            ));
-        }
-        enemies.removeIf(enemy -> enemy.y > PANEL_HEIGHT);
-        for (Rectangle enemy : enemies) {
-            enemy.y += 2;
+        function shootBullet() {
+            for (let i = 0; i < bulletsToFire; i++) {
+                let bulletX = player.x + player.width / 2 - bulletWidth / 2 + i * 15 - bulletsToFire * 7;
+                bullets.push({ x: bulletX, y: player.y, width: bulletWidth, height: bulletHeight });
+            }
         }
 
-        // Check for collisions
-        bullets.removeIf(bullet -> {
-            for (Rectangle enemy : enemies) {
-                if (bullet.intersects(enemy)) {
-                    enemies.remove(enemy);
-                    score++; // Increase score for each enemy destroyed
-                    updateBulletsToFire();
-                    return true;
+        function drawPlayer() {
+            ctx.fillStyle = 'green';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function updatePlayer() {
+            if (player.rightPressed) {
+                player.x += 5;
+                if (player.x + player.width > canvas.width) {
+                    player.x = canvas.width - player.width;
+                }
+            } else if (player.leftPressed) {
+                player.x -= 5;
+                if (player.x < 0) {
+                    player.x = 0;
                 }
             }
-            return false;
-        });
+        }
 
-        // Check for player collision with enemies
-        for (Rectangle enemy : enemies) {
-            if (player.intersects(enemy)) {
-                gameState = GameState.GAME_OVER;
-                timer.stop();
-                break;
+        function drawBullet(bullet) {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+        }
+
+        function updateBullets() {
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                bullets[i].y -= 10;
+                if (bullets[i].y + bullets[i].height < 0) {
+                    bullets.splice(i, 1);
+                }
             }
         }
-    }
 
-    private void updateBulletsToFire() {
-        if (score % 10 == 0 && score != 0) { // Increase bullets to fire for every 10 enemies destroyed
-            bulletsToFire++;
-        }
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        switch (gameState) {
-            case START_SCREEN:
-                drawStartScreen(g);
-                break;
-            case IN_GAME:
-                drawGame(g);
-                break;
-            case GAME_OVER:
-                drawGameOverScreen(g);
-                break;
-        }
-    }
-
-    private void drawStartScreen(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 36));
-        g.drawString("Press ENTER to Start", PANEL_WIDTH / 4, PANEL_HEIGHT / 2);
-    }
-
-    private void drawGame(Graphics g) {
-        g.setColor(Color.GREEN);
-        g.fillRect(player.x, player.y, player.width, player.height);
-
-        g.setColor(Color.RED);
-        for (Rectangle enemy : enemies) {
-            g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+        function drawEnemies() {
+            ctx.fillStyle = 'red';
+            enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemySize, enemySize);
+            });
         }
 
-        g.setColor(Color.WHITE);
-        for (Rectangle bullet : bullets) {
-            g.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
-        }
-    }
-
-    private void drawGameOverScreen(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 36));
-        String gameOverText = "Game Over - Score: " + score;
-        g.drawString(gameOverText, PANEL_WIDTH / 4, PANEL_HEIGHT / 2);
-        g.drawString("Press ENTER to Play Again", PANEL_WIDTH / 4, PANEL_HEIGHT / 2 + 50);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (gameState == GameState.START_SCREEN || gameState == GameState.GAME_OVER) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                gameState = GameState.IN_GAME;
-                initializeGame();
-                timer.start();
+        function updateEnemies() {
+            if (Math.random() < 0.02) {
+                enemies.push({
+                    x: Math.random() * (canvas.width - enemySize),
+                    y: -enemySize,
+                    width: enemySize,
+                    height: enemySize
+                });
             }
-        } else if (gameState == GameState.IN_GAME) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    leftPressed = true;
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    rightPressed = true;
-                    break;
-                case KeyEvent.VK_SPACE:
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastFiringTime > FIRING_INTERVAL) {
-                        for (int i = 0; i < bulletsToFire; i++) {
-                            int bulletX = player.x + PLAYER_SIZE / 2 - BULLET_WIDTH / 2 + i * 15 - bulletsToFire * 7;
-                            bullets.add(new Rectangle(bulletX, player.y, BULLET_WIDTH, BULLET_HEIGHT));
+
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                enemies[i].y += 2;
+                if (enemies[i].y > canvas.height) {
+                    enemies.splice(i, 1);
+                }
+            }
+        }
+
+        function checkCollisions() {
+            bullets.forEach((bullet, bulletIndex) => {
+                enemies.forEach((enemy, enemyIndex) => {
+                    if (bullet.x < enemy.x + enemy.width &&
+                        bullet.x + bullet.width > enemy.x &&
+                        bullet.y < enemy.y + enemy.height &&
+                        bullet.y + bullet.height > enemy.y) {
+                        enemies.splice(enemyIndex, 1);
+                        bullets.splice(bulletIndex, 1);
+
+                        // Increase score and possibly bullets to fire
+                        score++;
+                        if (score % 10 === 0) {
+                            bulletsToFire++;
                         }
-                        lastFiringTime = currentTime;
                     }
-                    break;
+                });
+            });
+
+            // Check for player collision with enemies
+            for (let i = 0; i < enemies.length; i++) {
+                let enemy = enemies[i];
+                if (player.x < enemy.x + enemy.width &&
+                    player.x + player.width > enemy.x &&
+                    player.y < enemy.y + enemy.height &&
+                    player.height + player.y > enemy.y) {
+                    // End game
+                    alert(`Game Over! Your score was: ${score}`);
+                    document.location.reload();
+                    clearInterval(interval); // Needed for Chrome to end game
+                }
             }
         }
-    }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (gameState == GameState.IN_GAME) {
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                leftPressed = false;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                rightPressed = false;
-            }
+        function drawScore() {
+            ctx.font = '16px Arial';
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillText('Score: ' + score, 8, 20);
         }
-    }
 
-    @Override
-    public void keyTyped(KeyEvent e) {}
-}
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            updatePlayer();
+            bullets.forEach(drawBullet);
+            updateBullets();
+            drawEnemies();
+            updateEnemies();
+            checkCollisions();
+            drawScore();
+        }
+
+        let interval = setInterval(gameLoop, 20);
+    </script>
+</body>
+</html>
