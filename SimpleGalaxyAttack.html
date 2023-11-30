@@ -1,0 +1,223 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SimpleGalaxyAttack extends JFrame {
+
+    public SimpleGalaxyAttack() {
+        this.add(new GamePanel());
+        this.setTitle("Upgraded Galaxy Attack");
+        this.setResizable(false);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(SimpleGalaxyAttack::new);
+    }
+}
+
+enum GameState {
+    START_SCREEN,
+    IN_GAME,
+    GAME_OVER
+}
+
+class GamePanel extends JPanel implements ActionListener, KeyListener {
+    private final int PANEL_WIDTH = 800;
+    private final int PANEL_HEIGHT = 600;
+    private final int PLAYER_SIZE = 60;
+    private final int BULLET_HEIGHT = 10;
+    private final int BULLET_WIDTH = 5;
+    private final int ENEMY_SIZE = 50;
+    private final long FIRING_INTERVAL = 500; // milliseconds
+    private long lastFiringTime;
+    private Timer timer;
+    private List<Rectangle> bullets;
+    private List<Rectangle> enemies;
+    private Rectangle player;
+    private boolean leftPressed, rightPressed;
+    private int score;
+    private int bulletsToFire;
+    private GameState gameState;
+
+    public GamePanel() {
+        this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        this.setBackground(Color.BLACK);
+        this.setFocusable(true);
+        this.addKeyListener(this);
+
+        initializeGame();
+        gameState = GameState.START_SCREEN;
+
+        timer = new Timer(20, this);
+        timer.start();
+    }
+
+    private void initializeGame() {
+        player = new Rectangle(PANEL_WIDTH / 2 - PLAYER_SIZE / 2, PANEL_HEIGHT - 60, PLAYER_SIZE, PLAYER_SIZE);
+        bullets = new ArrayList<>();
+        enemies = new ArrayList<>();
+        score = 0;
+        bulletsToFire = 1;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (gameState == GameState.IN_GAME) {
+            updateGame();
+        }
+        repaint();
+    }
+
+    private void updateGame() {
+        if (leftPressed && player.x > 0) {
+            player.x -= 5;
+        }
+        if (rightPressed && player.x < PANEL_WIDTH - PLAYER_SIZE) {
+            player.x += 5;
+        }
+
+        // Update bullet positions
+        bullets.removeIf(bullet -> bullet.y < 0);
+        for (Rectangle bullet : bullets) {
+            bullet.y -= 10;
+        }
+
+        // Enemy logic
+        if (Math.random() < 0.02) { // 2% chance to spawn an enemy each frame
+            enemies.add(new Rectangle(
+                    (int)(Math.random() * (PANEL_WIDTH - ENEMY_SIZE)),
+                    -ENEMY_SIZE,
+                    ENEMY_SIZE,
+                    ENEMY_SIZE
+            ));
+        }
+        enemies.removeIf(enemy -> enemy.y > PANEL_HEIGHT);
+        for (Rectangle enemy : enemies) {
+            enemy.y += 2;
+        }
+
+        // Check for collisions
+        bullets.removeIf(bullet -> {
+            for (Rectangle enemy : enemies) {
+                if (bullet.intersects(enemy)) {
+                    enemies.remove(enemy);
+                    score++; // Increase score for each enemy destroyed
+                    updateBulletsToFire();
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        // Check for player collision with enemies
+        for (Rectangle enemy : enemies) {
+            if (player.intersects(enemy)) {
+                gameState = GameState.GAME_OVER;
+                timer.stop();
+                break;
+            }
+        }
+    }
+
+    private void updateBulletsToFire() {
+        if (score % 10 == 0 && score != 0) { // Increase bullets to fire for every 10 enemies destroyed
+            bulletsToFire++;
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        switch (gameState) {
+            case START_SCREEN:
+                drawStartScreen(g);
+                break;
+            case IN_GAME:
+                drawGame(g);
+                break;
+            case GAME_OVER:
+                drawGameOverScreen(g);
+                break;
+        }
+    }
+
+    private void drawStartScreen(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 36));
+        g.drawString("Press ENTER to Start", PANEL_WIDTH / 4, PANEL_HEIGHT / 2);
+    }
+
+    private void drawGame(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.fillRect(player.x, player.y, player.width, player.height);
+
+        g.setColor(Color.RED);
+        for (Rectangle enemy : enemies) {
+            g.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+        }
+
+        g.setColor(Color.WHITE);
+        for (Rectangle bullet : bullets) {
+            g.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
+        }
+    }
+
+    private void drawGameOverScreen(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 36));
+        String gameOverText = "Game Over - Score: " + score;
+        g.drawString(gameOverText, PANEL_WIDTH / 4, PANEL_HEIGHT / 2);
+        g.drawString("Press ENTER to Play Again", PANEL_WIDTH / 4, PANEL_HEIGHT / 2 + 50);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (gameState == GameState.START_SCREEN || gameState == GameState.GAME_OVER) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                gameState = GameState.IN_GAME;
+                initializeGame();
+                timer.start();
+            }
+        } else if (gameState == GameState.IN_GAME) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    leftPressed = true;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    rightPressed = true;
+                    break;
+                case KeyEvent.VK_SPACE:
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastFiringTime > FIRING_INTERVAL) {
+                        for (int i = 0; i < bulletsToFire; i++) {
+                            int bulletX = player.x + PLAYER_SIZE / 2 - BULLET_WIDTH / 2 + i * 15 - bulletsToFire * 7;
+                            bullets.add(new Rectangle(bulletX, player.y, BULLET_WIDTH, BULLET_HEIGHT));
+                        }
+                        lastFiringTime = currentTime;
+                    }
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (gameState == GameState.IN_GAME) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                leftPressed = false;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                rightPressed = false;
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+}
