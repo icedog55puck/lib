@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Space Shooter Game</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 20px auto;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const playerSize = 60;
+        const bulletWidth = 5;
+        const bulletHeight = 10;
+        const enemySize = 50;
+        const player = { x: canvas.width / 2 - playerSize / 2, y: canvas.height - 60, width: playerSize, height: playerSize };
+        let bullets = [];
+        let enemies = [];
+        let score = 0;
+        let bulletsToFire = 1;
+
+        document.addEventListener('keydown', keyDownHandler);
+        document.addEventListener('keyup', keyUpHandler);
+
+        function keyDownHandler(event) {
+            if (event.key === 'ArrowRight') {
+                player.rightPressed = true;
+            } else if (event.key === 'ArrowLeft') {
+                player.leftPressed = true;
+            } else if (event.code === 'Space') {
+                shootBullet();
+            }
+        }
+
+        function keyUpHandler(event) {
+            if (event.key === 'ArrowRight') {
+                player.rightPressed = false;
+            } else if (event.key === 'ArrowLeft') {
+                player.leftPressed = false;
+            }
+        }
+
+        function shootBullet() {
+            for (let i = 0; i < bulletsToFire; i++) {
+                let bulletX = player.x + player.width / 2 - bulletWidth / 2 + i * 15 - bulletsToFire * 7;
+                bullets.push({ x: bulletX, y: player.y, width: bulletWidth, height: bulletHeight });
+            }
+        }
+
+        function drawPlayer() {
+            ctx.fillStyle = 'green';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function updatePlayer() {
+            if (player.rightPressed) {
+                player.x += 5;
+                if (player.x + player.width > canvas.width) {
+                    player.x = canvas.width - player.width;
+                }
+            } else if (player.leftPressed) {
+                player.x -= 5;
+                if (player.x < 0) {
+                    player.x = 0;
+                }
+            }
+        }
+
+        function drawBullet(bullet) {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+        }
+
+        function updateBullets() {
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                bullets[i].y -= 10;
+                if (bullets[i].y + bullets[i].height < 0) {
+                    bullets.splice(i, 1);
+                }
+            }
+        }
+
+        function drawEnemies() {
+            ctx.fillStyle = 'red';
+            enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemySize, enemySize);
+            });
+        }
+
+        function updateEnemies() {
+            if (Math.random() < 0.02) {
+                enemies.push({
+                    x: Math.random() * (canvas.width - enemySize),
+                    y: -enemySize,
+                    width: enemySize,
+                    height: enemySize
+                });
+            }
+
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                enemies[i].y += 2;
+                if (enemies[i].y > canvas.height) {
+                    enemies.splice(i, 1);
+                }
+            }
+        }
+
+        function checkCollisions() {
+            bullets.forEach((bullet, bulletIndex) => {
+                enemies.forEach((enemy, enemyIndex) => {
+                    if (bullet.x < enemy.x + enemy.width &&
+                        bullet.x + bullet.width > enemy.x &&
+                        bullet.y < enemy.y + enemy.height &&
+                        bullet.y + bullet.height > enemy.y) {
+                        enemies.splice(enemyIndex, 1);
+                        bullets.splice(bulletIndex, 1);
+
+                        // Increase score and possibly bullets to fire
+                        score++;
+                        if (score % 10 === 0) {
+                            bulletsToFire++;
+                        }
+                    }
+                });
+            });
+
+            // Check for player collision with enemies
+            for (let i = 0; i < enemies.length; i++) {
+                let enemy = enemies[i];
+                if (player.x < enemy.x + enemy.width &&
+                    player.x + player.width > enemy.x &&
+                    player.y < enemy.y + enemy.height &&
+                    player.height + player.y > enemy.y) {
+                    // End game
+                    alert(`Game Over! Your score was: ${score}`);
+                    document.location.reload();
+                    clearInterval(interval); // Needed for Chrome to end game
+                }
+            }
+        }
+
+        function drawScore() {
+            ctx.font = '16px Arial';
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillText('Score: ' + score, 8, 20);
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            updatePlayer();
+            bullets.forEach(drawBullet);
+            updateBullets();
+            drawEnemies();
+            updateEnemies();
+            checkCollisions();
+            drawScore();
+        }
+
+        let interval = setInterval(gameLoop, 20);
+    </script>
+</body>
+</html>
