@@ -26,3 +26,5 @@ For the alphabetic storage, a **Quick Sort algorithm** will be employed. Quick S
 Additionally, for the ranking system, a **Binary Search Tree (BST) algorithm** will be implemented. A Binary Search Tree is well-suited for maintaining a dynamic ranking system, where games can be efficiently inserted, deleted, and searched based on their ranking criteria. This approach allows for a streamlined and responsive ranking system that adapts well to changes in game popularity or user preferences.   
 
 By incorporating these advanced algorithms, the project aims to not only provide a seamless and intuitive user experience but also to optimize the performance of both the alphabetic storage and ranking system components within the game library.
+
+# Installation
