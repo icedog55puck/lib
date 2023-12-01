@@ -30,7 +30,9 @@ By incorporating these advanced algorithms, the project aims to not only provide
 # Installation
 1. Install VS Code
 2. Click clone Git Repository
-3. copy this link : https://github.com/icedog55puck/lib.git
+3. Copy this link : https://github.com/icedog55puck/lib.git
+4. Paste in browser
+5. click clone repsoitory to destination
    
 
 # Significance
