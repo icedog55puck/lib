@@ -32,7 +32,6 @@ By incorporating these advanced algorithms, the project aims to not only provide
 2. Click clone Git Repository
 3. copy this link : https://github.com/icedog55puck/lib.git
    
-Here is the text converted to Markdown format:
 
 # Significance
 
