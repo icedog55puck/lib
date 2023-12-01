@@ -28,3 +28,6 @@ Additionally, for the ranking system, a **Binary Search Tree (BST) algorithm** w
 By incorporating these advanced algorithms, the project aims to not only provide a seamless and intuitive user experience but also to optimize the performance of both the alphabetic storage and ranking system components within the game library.
 
 # Installation
+1. Install VS Code
+2. Create new project
+3. copy this link
