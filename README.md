@@ -33,6 +33,11 @@ By incorporating these advanced algorithms, the project aims to not only provide
 3. Copy this link : https://github.com/icedog55puck/lib.git
 4. Paste in browser
 5. click clone repsoitory to destination
+
+# Use Case
+1. click on index.html then go to run and debug
+2. click run and debug and click either chrome or edge and if one does not work try the other
+3. After open click on game you want to play, then click back arrow to return to library
    
 
 # Significance
