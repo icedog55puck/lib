@@ -19,45 +19,94 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        #voteButtons {
+            margin-top: 20px;
+        }
+        .voteButton {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
 
 <h1>Game Library</h1>
 <input type="text" id="searchInput" placeholder="Search by title">
-<button id="sortByRankButton">Sort by Rank</button>
+<button id="sortByVotesButton">Sort by Votes</button>
 <ul id="gameList"></ul>
 
+<div id="voteButtons"></div>
+
 <script>
-    // Sample games data with ranks
+    // Sample games data with ranks and votes
     let games = [
-        { title: "Assassin's Creed example dose not work", page: "assassins_creed.html", rank: 3 },
-        { title: "Battlefield example dose not work", page: "battlefield.html", rank: 1 },
-        { title: "Snake", page: "snake.html", rank: 2 },
-        { title: "Pacman", page: "pacman.html", rank: 4 },
-        { title: "Simple Galaxy Attack", page: "SimpleGalaxyAttack.html", rank: 5 },
+        { title: "Snake Playable", page: "snake.html", votes: 3 },
+        { title: "Pacman Playable", page: "pacman.html", votes: 10 },
+        { title: "Simple Galaxy Attack", page: "SimpleGalaxyAttack.html", votes: 1 },
         // Add more games as needed
     ];
 
-    // Function to perform Quick Sort by rank
-    function quickSortByRank(arr) {
-        if (arr.length <= 1) {
-            return arr;
+    // Binary Search Tree Node
+    class TreeNode {
+        constructor(game) {
+            this.game = game;
+            this.left = null;
+            this.right = null;
+        }
+    }
+
+    // Binary Search Tree
+    class BinarySearchTree {
+        constructor() {
+            this.root = null;
         }
 
-        const pivot = arr[0];
-        const left = [];
-        const right = [];
+        insert(game) {
+            const newNode = new TreeNode(game);
 
-        for (let i = 1; i < arr.length; i++) {
-            if (arr[i].rank < pivot.rank) {
-                left.push(arr[i]);
+            if (!this.root) {
+                this.root = newNode;
             } else {
-                right.push(arr[i]);
+                this.insertNode(this.root, newNode);
             }
         }
 
-        return [...quickSortByRank(left), pivot, ...quickSortByRank(right)];
+        insertNode(node, newNode) {
+            if (newNode.game.votes > node.game.votes) {
+                if (!node.right) {
+                    node.right = newNode;
+                } else {
+                    this.insertNode(node.right, newNode);
+                }
+            } else {
+                if (!node.left) {
+                    node.left = newNode;
+                } else {
+                    this.insertNode(node.left, newNode);
+                }
+            }
+        }
+
+        // Perform an in-order traversal to get sorted games
+        inOrderTraversal(node, sortedGames) {
+            if (node) {
+                this.inOrderTraversal(node.right, sortedGames);
+                sortedGames.push(node.game);
+                this.inOrderTraversal(node.left, sortedGames);
+            }
+        }
+    }
+
+    // Function to perform binary search tree sort by votes
+    function binarySortByVotes(games) {
+        const bst = new BinarySearchTree();
+
+        games.forEach(game => {
+            bst.insert(game);
+        });
+
+        const sortedGames = [];
+        bst.inOrderTraversal(bst.root, sortedGames);
+        return sortedGames;
     }
 
     // Function to render the game list
@@ -67,11 +116,28 @@
         gameList.forEach(game => {
             const listItem = document.createElement('li');
             listItem.className = 'gameItem';
-            listItem.textContent = `${game.title} (Rank: ${game.rank})`;
+            listItem.textContent = `${game.title} ( Votes: ${game.votes})`;
+
             listItem.addEventListener('click', () => {
                 window.location.href = game.page;
             });
             listElement.appendChild(listItem);
+        });
+    }
+
+    // Function to render the vote buttons
+    function renderVoteButtons() {
+        const voteButtonsContainer = document.getElementById('voteButtons');
+        voteButtonsContainer.innerHTML = '';
+
+        games.forEach(game => {
+            const voteButton = document.createElement('button');
+            voteButton.textContent = `Vote for ${game.title}`;
+            voteButton.className = 'voteButton';
+            voteButton.addEventListener('click', () => {
+                voteForGame(game);
+            });
+            voteButtonsContainer.appendChild(voteButton);
         });
     }
 
@@ -84,14 +150,22 @@
     });
 
     // Event listener for sort button
-    const sortByRankButton = document.getElementById('sortByRankButton');
-    sortByRankButton.addEventListener('click', () => {
-        const sortedGames = quickSortByRank(games);
+    const sortByVotesButton = document.getElementById('sortByVotesButton');
+    sortByVotesButton.addEventListener('click', () => {
+        const sortedGames = binarySortByVotes(games);
         renderGameList(sortedGames);
     });
 
-    // Render the initial game list
+    // Function to handle voting logic
+    function voteForGame(game) {
+        game.votes += 1;
+        renderGameList(games);
+        renderVoteButtons(); // Update the vote buttons after voting
+    }
+
+    // Render the initial game list and vote buttons
     renderGameList(games);
+    renderVoteButtons();
 </script>
 
 </body>
