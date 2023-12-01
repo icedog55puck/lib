@@ -30,4 +30,5 @@ By incorporating these advanced algorithms, the project aims to not only provide
 # Installation
 1. Install VS Code
 2. Create new project
-3. copy this link
+3. copy this link : https://github.com/icedog55puck/lib.git
+   
