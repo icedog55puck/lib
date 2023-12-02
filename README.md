@@ -29,18 +29,24 @@ By incorporating these advanced algorithms, the project aims to not only provide
 
 # Installation
 1. Install VS Code : https://code.visualstudio.com/download
+   
    <img width="1440" alt="Screenshot 2023-12-01 at 11 09 51 PM" src="https://github.com/icedog55puck/lib/assets/132689188/305236e7-5354-4517-bade-3f44c3eda477">
 
 3. Click clone Git Repository
+   
    <img width="402" alt="Screenshot 2023-12-01 at 11 10 03 PM" src="https://github.com/icedog55puck/lib/assets/132689188/f4583bee-e973-4dcb-a6ea-9d3ef70f743e">
 
-4. Copy this link : https://github.com/icedog55puck/lib.git
-5. Paste in browser
+5. Copy this link : https://github.com/icedog55puck/lib.git
+6. Paste in browser
+   
    <img width="1440" alt="Screenshot 2023-12-01 at 11 11 43 PM" src="https://github.com/icedog55puck/lib/assets/132689188/7b147d5b-8271-44f3-bf08-422106e48bae">
 
-7. click select as repsoitory destination
+8. click select as repsoitory destination
+   
   <img width="829" alt="Screenshot 2023-12-01 at 11 12 12 PM" src="https://github.com/icedog55puck/lib/assets/132689188/6087cfd8-025a-4fc0-acf6-ca7aebbbf484">
-8. Click open
+  
+9. Click open
+    
   <img width="283" alt="Screenshot 2023-12-01 at 11 12 58 PM" src="https://github.com/icedog55puck/lib/assets/132689188/0ed3f8f2-6e34-496b-a4e2-7582a9ba7d7a">
 
 # Use Case
