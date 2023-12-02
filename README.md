@@ -51,9 +51,11 @@ By incorporating these advanced algorithms, the project aims to not only provide
 
 # Use Case
 1. click on index.html then go to run and debug
+   
    <img width="311" alt="Screenshot 2023-12-01 at 11 13 39 PM" src="https://github.com/icedog55puck/lib/assets/132689188/fe0e0f94-564b-403b-a781-87190989aa4b">
 
 3. click run and debug and click either chrome or edge and if one does not work try the other
+   
    <img width="308" alt="Screenshot 2023-12-01 at 11 14 17 PM" src="https://github.com/icedog55puck/lib/assets/132689188/79e728b9-4a40-418d-a18e-443034c096f2">
 
 <img width="1440" alt="Screenshot 2023-12-01 at 11 22 12 PM" src="https://github.com/icedog55puck/lib/assets/132689188/9ed36274-30ef-44b1-8974-39062cfae84a">
