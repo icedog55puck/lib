@@ -72,11 +72,48 @@ By incorporating these advanced algorithms, the project aims to not only provide
    
 <img width="1440" alt="Screenshot 2023-12-02 at 11 02 50 AM" src="https://github.com/icedog55puck/lib/assets/132689188/924172c6-1c22-4cfb-b417-6712984e0e52">
 
+<img width="574" alt="Screenshot 2023-12-02 at 11 07 09 AM" src="https://github.com/icedog55puck/lib/assets/132689188/63a8814e-e1b9-4991-bf60-92a12217b8b8">
+
+<img width="1440" alt="Screenshot 2023-12-02 at 11 08 05 AM" src="https://github.com/icedog55puck/lib/assets/132689188/dc102d6e-724f-4ed9-8019-362d54c6677a">
+
+<img width="594" alt="Screenshot 2023-12-02 at 11 03 14 AM" src="https://github.com/icedog55puck/lib/assets/132689188/a096f5c5-4d81-440c-aa49-c3c4d5f18751">
+
+
+<img width="1440" alt="Screenshot 2023-12-02 at 11 06 45 AM" src="https://github.com/icedog55puck/lib/assets/132689188/510e8bc1-613f-44a6-b200-ca316ed2befe">
+
 2. Voting
+  <img width="566" alt="Screenshot 2023-12-02 at 11 36 51 AM" src="https://github.com/icedog55puck/lib/assets/132689188/7cee0a72-3a3a-4ad7-ab45-a8ed4b1ce488">
+  
+<img width="564" alt="Screenshot 2023-12-02 at 11 37 24 AM" src="https://github.com/icedog55puck/lib/assets/132689188/67ec911e-7240-41de-b343-bc5497e90836">
 
 3. Sort by voting
+  <img width="560" alt="Screenshot 2023-12-02 at 11 37 54 AM" src="https://github.com/icedog55puck/lib/assets/132689188/b3150346-533d-47e0-bc2d-60d1a19afc2b">
+
+  <img width="555" alt="Screenshot 2023-12-02 at 11 38 41 AM" src="https://github.com/icedog55puck/lib/assets/132689188/a06b160c-e353-412e-8ab8-3ffdb6cd3975">
 
 # Diagram
+[Document]
+  │
+  ├── [Head]
+  │     ├── [Meta: charset="UTF-8"]
+  │     ├── [Meta: name="viewport"]
+  │     └── [Title: "Game Library"]
+  │
+  └── [Body]
+        ├── [H1: "Game Library"]
+        ├── [Input: id="searchInput"]
+        ├── [Button: id="sortByRankButton"]
+        └── [UL: id="gameList"]
+              ├── [LI: class="gameItem" (dynamically generated for each game)]
+              └── [LI: class="gameItem" (more items...)]
+              
+[JavaScript]
+  │
+  ├── [Array: "games"]
+  ├── [Function: "quickSortByRank"]
+  ├── [Function: "renderGameList"]
+  ├── [EventListener: "input" on "searchInput"]
+  └── [EventListener: "click" on "sortByRankButton"]
 
 
 # Significance
