@@ -32,16 +32,31 @@ By incorporating these advanced algorithms, the project aims to not only provide
    <img width="1440" alt="Screenshot 2023-12-01 at 11 09 51 PM" src="https://github.com/icedog55puck/lib/assets/132689188/305236e7-5354-4517-bade-3f44c3eda477">
 
 3. Click clone Git Repository
-   
+   <img width="402" alt="Screenshot 2023-12-01 at 11 10 03 PM" src="https://github.com/icedog55puck/lib/assets/132689188/f4583bee-e973-4dcb-a6ea-9d3ef70f743e">
+
 4. Copy this link : https://github.com/icedog55puck/lib.git
 5. Paste in browser
-6. click clone repsoitory to destination
+   <img width="1440" alt="Screenshot 2023-12-01 at 11 11 43 PM" src="https://github.com/icedog55puck/lib/assets/132689188/7b147d5b-8271-44f3-bf08-422106e48bae">
+
+7. click select as repsoitory destination
+  <img width="829" alt="Screenshot 2023-12-01 at 11 12 12 PM" src="https://github.com/icedog55puck/lib/assets/132689188/6087cfd8-025a-4fc0-acf6-ca7aebbbf484">
+8. Click open
+  <img width="283" alt="Screenshot 2023-12-01 at 11 12 58 PM" src="https://github.com/icedog55puck/lib/assets/132689188/0ed3f8f2-6e34-496b-a4e2-7582a9ba7d7a">
 
 # Use Case
 1. click on index.html then go to run and debug
-2. click run and debug and click either chrome or edge and if one does not work try the other
-3. After open click on game you want to play, then click back arrow to return to library
-   
+   <img width="311" alt="Screenshot 2023-12-01 at 11 13 39 PM" src="https://github.com/icedog55puck/lib/assets/132689188/fe0e0f94-564b-403b-a781-87190989aa4b">
+
+3. click run and debug and click either chrome or edge and if one does not work try the other
+   <img width="308" alt="Screenshot 2023-12-01 at 11 14 17 PM" src="https://github.com/icedog55puck/lib/assets/132689188/79e728b9-4a40-418d-a18e-443034c096f2">
+
+<img width="1440" alt="Screenshot 2023-12-01 at 11 22 12 PM" src="https://github.com/icedog55puck/lib/assets/132689188/9ed36274-30ef-44b1-8974-39062cfae84a">
+
+5. After open click on game you want to play, then click back arrow to return to library
+   <img width="1200" alt="Screenshot 2023-12-01 at 11 24 16 PM" src="https://github.com/icedog55puck/lib/assets/132689188/07ea039e-953c-42f0-91ad-a8e2570a7f38">
+
+<img width="1198" alt="Screenshot 2023-12-01 at 11 25 18 PM" src="https://github.com/icedog55puck/lib/assets/132689188/b6b1ce14-6717-4548-9236-25d4ce9c87d5">
+
 
 # Significance
 
