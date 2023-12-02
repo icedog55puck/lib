@@ -92,29 +92,7 @@ By incorporating these advanced algorithms, the project aims to not only provide
   <img width="555" alt="Screenshot 2023-12-02 at 11 38 41 AM" src="https://github.com/icedog55puck/lib/assets/132689188/a06b160c-e353-412e-8ab8-3ffdb6cd3975">
 
 # Diagram
-[Document]<br>
-  │<br>
-  ├── [Head]<br>
-  │     ├── [Meta: charset="UTF-8"]<br>
-  │     ├── [Meta: name="viewport"]<br>
-  │     └── [Title: "Game Library"]<br>
-  │<br>
-  └── [Body]<br>
-        ├── [H1: "Game Library"]<br>
-        ├── [Input: id="searchInput"]<br>
-        ├── [Button: id="sortByRankButton"]<br>
-        └── [UL: id="gameList"]<br>
-              ├── [LI: class="gameItem" (dynamically generated for each game)]<br>
-              └── [LI: class="gameItem" (more items...)]<br>
-              
-[JavaScript]
-  │
-  ├── [Array: "games"]
-  ├── [Function: "quickSortByRank"]
-  ├── [Function: "renderGameList"]
-  ├── [EventListener: "input" on "searchInput"]
-  └── [EventListener: "click" on "sortByRankButton"]
-
+  <img width="579" alt="Screenshot 2023-12-02 at 6 51 30 PM" src="https://github.com/icedog55puck/lib/assets/132689188/cd4ebe86-87f1-494e-bd1c-f43553a75113">
 
 # Significance
 
