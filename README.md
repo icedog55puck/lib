@@ -94,13 +94,13 @@ By incorporating these advanced algorithms, the project aims to not only provide
 # Diagram
   <img width="579" alt="Screenshot 2023-12-02 at 6 51 30 PM" src="https://github.com/icedog55puck/lib/assets/132689188/cd4ebe86-87f1-494e-bd1c-f43553a75113">
 
-The hierarchical structure of your HTML document and the JavaScript interactions are represented by this text layout:
+The hierarchical structure of your HTML document and the JavaScript interactions are represented by this text layout:<br>
 
-The root is the [Document] node.
-The [Head] node splits off into a [Title] and [Meta] tags.
-The [H1], [Input], [Button], and [UL] nodes are children of the [Body] node.
-JavaScript generates additional children [LI] nodes for each game, which are represented by the [UL] node.
-The functions it includes and the elements it interacts with are described in detail in the separate [JavaScript] section.
+The root is the [Document] node.<br>
+The [Head] node splits off into a [Title] and [Meta] tags.<br>
+The [H1], [Input], [Button], and [UL] nodes are children of the [Body] node.<br>
+JavaScript generates additional children [LI] nodes for each game, which are represented by the [UL] node.<br>
+The functions it includes and the elements it interacts with are described in detail in the separate [JavaScript] section.<br>
 A parent-child relationship is represented by each indentation, where child elements are functionalities that are nested within the corresponding parents. Boxes for nodes and connecting lines to depict their hierarchy and interactions would be used in the diagram to represent these relationships.
 
 # Significance
