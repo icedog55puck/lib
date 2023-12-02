@@ -67,7 +67,14 @@ By incorporating these advanced algorithms, the project aims to not only provide
 
 # Tests
 1. Searching and playing each game
+   <img width="709" alt="Screenshot 2023-12-02 at 11 01 52 AM" src="https://github.com/icedog55puck/lib/assets/132689188/73291e99-2ffa-40e9-9946-b84dd1c7ab3e">
    
+<img width="1440" alt="Screenshot 2023-12-02 at 11 02 50 AM" src="https://github.com/icedog55puck/lib/assets/132689188/924172c6-1c22-4cfb-b417-6712984e0e52">
+
+2. Voting
+   
+
+
 # Significance
 
 The project holds significance in enhancing happiness and user satisfaction within the gaming community. By implementing a game library with a ranking system and alphabetic storage, the project addresses key aspects that contribute to the overall well-being and enjoyment of users.
