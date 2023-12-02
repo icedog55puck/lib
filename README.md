@@ -28,11 +28,14 @@ Additionally, for the ranking system, a **Binary Search Tree (BST) algorithm** w
 By incorporating these advanced algorithms, the project aims to not only provide a seamless and intuitive user experience but also to optimize the performance of both the alphabetic storage and ranking system components within the game library.
 
 # Installation
-1. Install VS Code
-2. Click clone Git Repository
-3. Copy this link : https://github.com/icedog55puck/lib.git
-4. Paste in browser
-5. click clone repsoitory to destination
+1. Install VS Code : https://code.visualstudio.com/download
+   <img width="1440" alt="Screenshot 2023-12-01 at 11 09 51 PM" src="https://github.com/icedog55puck/lib/assets/132689188/305236e7-5354-4517-bade-3f44c3eda477">
+
+3. Click clone Git Repository
+   
+4. Copy this link : https://github.com/icedog55puck/lib.git
+5. Paste in browser
+6. click clone repsoitory to destination
 
 # Use Case
 1. click on index.html then go to run and debug
