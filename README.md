@@ -101,7 +101,7 @@ The hierarchical structure of your HTML document and the JavaScript interactions
 - The [H1], [Input], [Button], and [UL] nodes are children of the [Body] node.<br>
 - JavaScript generates additional children [LI] nodes for each game, which are represented by the [UL] node.<br>
 - The functions it includes and the elements it interacts with are described in detail in the separate [JavaScript] section.<br>
-- A parent-child relationship is represented by each indentation, where child elements are functionalities that are nested within the   corresponding parents. Boxes for nodes and connecting lines to depict their hierarchy and interactions would be used in the diagram to represent these relationships.
+- A parent-child relationship is represented by each indentation, where child elements are functionalities that are nested within the   corresponding parents.
 
 # Significance
 
